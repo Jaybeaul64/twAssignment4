@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // Connection URL
 const databaseName = 'web'
-const url = `mongodb://127.0.0.1:27017/${databaseName}`; // edit this
+const url = `${process.env.DB_CONNECTION_STRING}/${databaseName}`; // edit this
 
 async function connect() {
     // Use connect method to connect to the server
