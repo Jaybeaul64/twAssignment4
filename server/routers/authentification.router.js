@@ -17,8 +17,11 @@ router.post('/register', async function(req, res){
 
 // login
 // requires username and password, returns a JWT for authentification.
-router.post('/login', function(req, res){
+router.post('/login', async function(req, res){
+    const obj = await controller.login(req.body);
 
+    res.status(obj.status);
+    res.send(obj.message);
 });
 
 module.exports = router;

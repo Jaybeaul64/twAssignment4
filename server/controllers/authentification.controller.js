@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt');
+const bcryptModule = require('../modules/bcrypt.module');
+const jwt = require('../modules/jwt.module');
 const mongoose = require('mongoose');
 const userSchema = require('../Schemas/userSchema');
 
@@ -25,17 +26,15 @@ async function register(document){
     if(!validatePassword(document.password)){
         return {
             status: 400,
-            message: 'invalid password format',
+            message: {message: 'invalid password format'},
         }
     }
 
-    // hash the password
-    const salt = await bcrypt.genSaltSync(10);
-    const hash = await bcrypt.hashSync(document.password, salt);
+    const hashedPassword = await bcryptModule.hashPassword(document.password);
     
     // store new user to db 
     try{
-        const newUser = await new User({email: document.email, password: hash, favoriteGenre: document.favoriteGenre});
+        const newUser = await new User({email: document.email, password: hashedPassword, favoriteGenre: document.favoriteGenre});
         await newUser.save();
     }catch(err){
         return {
@@ -46,15 +45,41 @@ async function register(document){
 
     return {
         status: 201,
-        message: 'User created successfully',
+        message: {message: 'User created successfully'},
     }
 }
 
 // retreive existing user and provide token
-function login(document){
+async function login(document){
+    // find the user
+    const user = await User.findOne({email: document.email});
+    if(user === null){
+        return {
+            status: 401,
+            message: {message: 'Wrong email or password'},
+        }
+    }
+    console.log('user: ', user);
+    
+    // compare the password
+    if(!await bcryptModule.comparePassword(document.password, user.password)){
+        return {
+            status: 401,
+            message: {message: 'Wrong email or password'},
+        }
+    }
 
+    // generate token
+    const token = await jwt.createToken({
+        favoriteGenre: user.favoriteGenre
+    });
+
+    return {
+        status: 200,
+        message: token,
+    }
 }
 
 module.exports = {
-    register,
+    register, login,
 }
