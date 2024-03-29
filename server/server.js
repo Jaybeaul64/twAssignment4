@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
     res.send({message: 'Server Runing.'})
 })
 
-app.use('/authentification', authRouter); // authentification router
+app.use('/authentication', authRouter); // authentification router
 //app.use('/movies', moviesRouter); // Movies router
 
 const port = process.env.PORT || 8080;
