@@ -9,6 +9,7 @@ const RegisterForm: React.FC = ({}) => {
   const [favoriteGenre, setFavoriteGenre] = useState('');
   const [termsChecked, setTermsChecked] = useState(false);
 
+  // Form change handling
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
