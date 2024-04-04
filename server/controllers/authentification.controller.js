@@ -12,7 +12,7 @@ const User = mongoose.model ('User', userSchema );
 // returns true if validation is successful
 function validatePassword(password){
     // requires at least eight characters, at least one letter and one number
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-\=\[\]{}|;:'",.<>?/~]{8,}$/;
     if(passwordRegex.test(password)){
         return true;
     }
