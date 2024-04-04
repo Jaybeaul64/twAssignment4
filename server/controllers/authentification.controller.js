@@ -76,7 +76,7 @@ async function login(document){
 
     return {
         status: 200,
-        message: token,
+        message: {token: token},
     }
 }
 
