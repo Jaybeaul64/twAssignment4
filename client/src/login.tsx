@@ -15,7 +15,7 @@ const LoginForm: React.FC = ({}) => {
   };
 
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Email Regex
     const emailRegex = /[A-Za-z0-9_-]+@[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/
@@ -30,11 +30,28 @@ const LoginForm: React.FC = ({}) => {
     }
 
     if (validEmailTest) {
-        // Success
-        setEmail('');
-        setPassword('');
+      const response = await fetch('http://localhost:8080/authentication/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+        password: password
+        })
+      });
+      if (!response.ok) {
+        toast.error("Connection Issue.")
+      }
+      else {
+        const data = await response.json();
+        const token = data.token;
+        localStorage.setItem('jwtToken', token);
         toast.success("Login Complete!");
-        // HTTP REQUEST GOES HERE
+        setTimeout(() => {
+          window.location.href = '/home';
+        }, 2000);
+      }
     } else {
         // Error
         toast.error(errors.join(" "));

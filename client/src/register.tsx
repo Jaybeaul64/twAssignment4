@@ -94,6 +94,11 @@ const RegisterForm: React.FC = ({}) => {
       });
         if (!response.ok) {
           toast.error("Connection Issue.")
+          console.log(JSON.stringify({
+            email: email,
+          password: password,
+          favoriteGenre: favoriteGenre
+          }))
         }
         else {
           setEmail('');
@@ -102,7 +107,6 @@ const RegisterForm: React.FC = ({}) => {
           setFavoriteGenre('');
           toast.success("Registration Complete!");
         }
-        // HTTP REQUEST GOES HERE
     } else {
         // Error
         toast.error(errors.join(" "));
@@ -151,14 +155,14 @@ const RegisterForm: React.FC = ({}) => {
           <label htmlFor="favoriteGenre">Select an option:</label>
           <select id="favoriteGenre" value={favoriteGenre} onChange={handlefavoriteGenreChange} required>
             <option value="">Favorite movie genre</option>
-            <option value="drama">Drama</option>
-            <option value="comedy">Comedy</option>
-            <option value="action">Action</option>
-            <option value="sciFi">Sci-fi</option>
-            <option value="animation">Animation</option>
-            <option value="history">History</option>
-            <option value="horror">Horror</option>
-            <option value="romance">Romance</option>
+            <option value="Drama">Drama</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Action">Action</option>
+            <option value="Sci-fi">Sci-fi</option>
+            <option value="Animation">Animation</option>
+            <option value="History">History</option>
+            <option value="Horror">Horror</option>
+            <option value="Romance">Romance</option>
           </select>
         </div>
         <div className="form-group">
