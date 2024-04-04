@@ -31,7 +31,7 @@ const RegisterForm: React.FC = ({}) => {
   };
 
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Email Regex
     const emailRegex = /[A-Za-z0-9_-]+@[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/
@@ -80,12 +80,28 @@ const RegisterForm: React.FC = ({}) => {
     }
 
     if (validEmailTest && passwordSizeTest && passwordLowercaseTest && passwordUppercaseTest && passwordSpecialCharacterTest && passwordConfirmTest && favoriteGenre) {
-        // Success
-        setEmail('');
-        setPassword('');
-        setPasswordConfirm(' ');
-        setFavoriteGenre(' ');
-        toast.success("Registration Complete!");
+      // HTTP REQUEST GOES HERE
+      const response = await fetch('http://localhost:8080/authentication/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+        password: password,
+        favoriteGenre: favoriteGenre
+        })
+      });
+        if (!response.ok) {
+          toast.error("Connection Issue.")
+        }
+        else {
+          setEmail('');
+          setPassword('');
+          setPasswordConfirm('');
+          setFavoriteGenre('');
+          toast.success("Registration Complete!");
+        }
         // HTTP REQUEST GOES HERE
     } else {
         // Error
