@@ -7,8 +7,13 @@ import Home from './home.tsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+const isTokenExists = () => {
+  const token = localStorage.getItem('jwtToken');
+  return token ? true : false;
+};
+
 const router = createBrowserRouter([
-  { path: "/", element: <App /> },
+  { path: "/", element: isTokenExists() ? <Home /> : <Login /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/home", element: <Home /> },
