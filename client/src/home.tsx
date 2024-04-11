@@ -31,21 +31,21 @@ function Home() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log("Fetched movies:", data); // Log fetched data for debugging
+        console.log("Fetched movies:", data); 
         setMovies(data);
       } else {
         throw new Error('Failed to fetch movies');
       }
     } catch (error) {
       console.error(error);
-      // Handle error, e.g., redirect to login page
+      window.location.href = '/login';
     }
   };
 
   const extractFavoriteGenre = (token: string | null) => {
     try {
       if (!token) return;
-      const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decoding JWT token
+      const decodedToken = JSON.parse(atob(token.split('.')[1])); 
       if (decodedToken.favoriteGenre) {
         setFavoriteGenre(decodedToken.favoriteGenre);
       }

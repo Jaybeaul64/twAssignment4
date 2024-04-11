@@ -178,6 +178,7 @@ const RegisterForm: React.FC = ({}) => {
         </div>
         <button type="submit" disabled={!termsChecked}>Register</button>
       </form>
+      <p>Already have an account? <a href="/login">Sign In</a></p>
       <ToastContainer />
       </div>
     </div>
