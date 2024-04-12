@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './form.css'
+import { useNavigate } from 'react-router-dom';
+
 const LoginForm: React.FC = ({}) => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,7 +33,7 @@ const LoginForm: React.FC = ({}) => {
     }
 
     if (validEmailTest) {
-      const response = await fetch('http://localhost:8080/authentication/login', {
+      const response = await fetch(`http://assignment4-staging.eba-mmp6gemp.us-east-1.elasticbeanstalk.com/authentication/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -49,7 +52,8 @@ const LoginForm: React.FC = ({}) => {
         localStorage.setItem('jwtToken', token);
         toast.success("Login Complete!");
         setTimeout(() => {
-          window.location.href = '/home';
+          //window.location.href = '/home';
+          navigate('/home');
         }, 2000);
       }
     } else {
@@ -87,7 +91,7 @@ const LoginForm: React.FC = ({}) => {
         </div>
         <button type="submit" >Login</button>
       </form>
-      <p>Don't have an account? <a href="/register">Register</a></p>
+      <p>Don't have an account? <a onClick={() => navigate("/register")}>Register</a></p>
       <ToastContainer />
       </div>
     </div>

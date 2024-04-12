@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Movie {
   poster: string;
@@ -11,10 +12,13 @@ function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [favoriteGenre, setFavoriteGenre] = useState<string>('');
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      window.location.href = '/login';
+      //window.location.href = '/login';
+      navigate('/login');
     } else {
       fetchMovies(token);
       extractFavoriteGenre(token);
@@ -24,7 +28,7 @@ function Home() {
   const fetchMovies = async (token: string | null) => {
     try {
       if (!token) return;
-      const response = await fetch('http://localhost:8080/movies', {
+      const response = await fetch(`http://assignment4-staging.eba-mmp6gemp.us-east-1.elasticbeanstalk.com/movies`, {
         headers: {
           Authorization: token,
         },
@@ -38,7 +42,8 @@ function Home() {
       }
     } catch (error) {
       console.error(error);
-      window.location.href = '/login';
+      //window.location.href = '/login';
+      navigate('/login');
     }
   };
 
@@ -56,7 +61,8 @@ function Home() {
 
   const handleLogOut = () => {
     localStorage.removeItem('jwtToken');
-    window.location.href = '/login';
+    //window.location.href = '/login';
+    navigate('/login');
   };
 
   return (

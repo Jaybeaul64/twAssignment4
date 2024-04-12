@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './form.css'
+import { useNavigate } from 'react-router-dom';
+
 const RegisterForm: React.FC = ({}) => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -32,6 +36,7 @@ const RegisterForm: React.FC = ({}) => {
 
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
     // Email Regex
     const emailRegex = /[A-Za-z0-9_-]+@[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/
@@ -81,7 +86,7 @@ const RegisterForm: React.FC = ({}) => {
 
     if (validEmailTest && passwordSizeTest && passwordLowercaseTest && passwordUppercaseTest && passwordSpecialCharacterTest && passwordConfirmTest && favoriteGenre) {
       // HTTP REQUEST GOES HERE
-      const response = await fetch('http://localhost:8080/authentication/register', {
+      const response = await fetch(`http://assignment4-staging.eba-mmp6gemp.us-east-1.elasticbeanstalk.com/authentication/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -178,7 +183,7 @@ const RegisterForm: React.FC = ({}) => {
         </div>
         <button type="submit" disabled={!termsChecked}>Register</button>
       </form>
-      <p>Already have an account? <a href="/login">Sign In</a></p>
+      <p>Already have an account? <a onClick={() => navigate("/login")}>Sign In</a></p>
       <ToastContainer />
       </div>
     </div>
